@@ -1,6 +1,3 @@
-<a name="TOP"></a>
-![picture alt](https://placehold.co/1000x100/transparent/999?text=Markdown%20Cheatsheet&font=source-sans-pro "Leo Transformer")
-
 # 📝 写在前面
 
 这是一个自学 transformer 的记录。有个人的逐行注释与自我理解，分享供大家参考交流。
