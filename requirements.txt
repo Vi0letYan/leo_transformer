@@ -1,0 +1,4 @@
+tqdm==4.67.1
+sentencepiece==0.2.1
+sacrebleu==2.5.1
+numpy==1.23.3

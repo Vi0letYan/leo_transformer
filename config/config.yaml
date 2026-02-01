@@ -1,0 +1,65 @@
+# 模型超参数配置
+model:
+  # 模型的每个token的表示将使用512维的向量
+  d_token_embedding: 512
+  # 多头注意力机制中的头数
+  num_heads: 8
+  # Transformer编码器和解码器层数
+  num_layers: 6
+  # 自注意力机制中每个头的键（Key）向量的维度 与 自注意力机制中每个头的值（Value）向量的维度相同
+  d_k: 64
+  # 前馈网络隐藏层的大小
+  d_ffn: 2048
+  # dropout比率，在训练过程中随机丢弃神经元来避免模型过拟合
+  dropout: 0.1
+
+# 词汇表和标记配置
+vocab:
+  # 源语言（英语）的词汇表大小
+  src_vocab_size: 32000
+  # 目标语言（中文）的词汇表大小
+  tgt_vocab_size: 32000
+  # 填充token的索引，用于填充短句使每个句子都具有相同的长度
+  padding_idx: 0
+  # 句子的开始符号（BOS）的索引
+  bos_idx: 2
+  # 句子的结束符号（EOS）的索引
+  eos_idx: 3
+
+# 训练配置
+training:
+  # 训练时的批次大小
+  batch_size: 32
+  # 训练的总轮次
+  epoch_num: 10
+  # 学习率因子，学习率 = lr_factor * (d_token_embedding ** -0.5) * min(step ** -0.5, step * warmup_steps ** -1.5)
+  lr_factor: 1.0
+  # 预热步数
+  warmup_steps: 10000
+  # 分词器路径
+  tokenizer_path: "./tokenizer"
+
+# 解码和生成设置
+decoding:
+  # greed decode的最大句子长度
+  max_len: 60
+  # 在计算BLEU评分时使用的Beam Search的大小
+  beam_size: 3
+
+# 文件路径配置
+paths:
+  dataset_path: "../data/translation_dataset"
+  train_data_path: "../data/translation_dataset/train.json"
+  val_data_path: "../data/translation_dataset/val.json"
+  test_data_path: "../data/translation_dataset/test.json" 
+  test_model_path: "./run/train/exp/weights/xxx.pth"
+
+  # 翻译任务使用的模型权重路径
+  model_path: "./pre_weights/best_bleu_25.34.pth"
+
+# 设备配置
+device:
+  # 指定使用的GPU设备的ID
+  gpu_id: "0"
+  # 指定设备ID的列表
+  device_id: [0]
