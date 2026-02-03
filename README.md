@@ -1,6 +1,8 @@
 # 📝 写在前面
 
-这是一个跟随 B 站 up 炮哥带你学https://www.bilibili.com/video/BV1ej1EBWEWu/?spm_id_from=333.1387.homepage.video_card.click&vd_source=0d5cc85ddffdca8432c600fc369f25c3，学习 transformer 的记录。有个人的逐行注释与自我理解，分享供大家参考交流。
+这是一个跟随 B 站 up 炮哥带你学
+https://www.bilibili.com/video/BV1ej1EBWEWu/?spm_id_from=333.1387.homepage.video_card.click&vd_source=0d5cc85ddffdca8432c600fc369f25c3
+学习 transformer 的记录。有个人的逐行注释与自我理解，分享供大家参考交流。
 这里实现的是 transformer 最本来的用途——翻译：英语 -> 中文
 
 # 快速开始
