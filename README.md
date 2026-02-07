@@ -1,7 +1,9 @@
 # 📝 写在前面
 
 这是一个跟随 B 站 up 炮哥带你学
+
 https://www.bilibili.com/video/BV1ej1EBWEWu/?spm_id_from=333.1387.homepage.video_card.click&vd_source=0d5cc85ddffdca8432c600fc369f25c3
+
 学习 transformer 的记录。有个人的逐行注释与自我理解，分享供大家参考交流。
 这里实现的是 transformer 最本来的用途——翻译：英语 -> 中文
 
@@ -107,14 +109,17 @@ tips：
 6. generator 的输出是直接输出，而不能进行 log_softmax。因为后续 loss 计算的时候使用的是官方推荐的 nn.CrossEntropyLoss()，其库中的注释和具体代码实现确实是会先进行一次 log_softmax。如果自己先手动进行一次，那么数值会变得过小导致 loss 一直是 NAN。官方推荐使用 nn.CrossEntropyLoss() 而不是手动 log_softmax + F.nll_loss。因为CrossEntropyLoss 内部使用了 log-sum-exp trick，避免数值溢出，且手动分离计算时，中间结果需要额外内存存储
 
 7. 尝试不同顺序的残差连接
+
 相同参数，训练 10 epoch ： 
+
 x = x + self.norm(self.dropout(sublayer(x))) BLEU 6.13  我
 x = x + self.dropout(sublayer(self.norm(x))) BLEU 25.34 pre-norm
 x = self.norm(x + self.dropout(sublayer(x))) BLEU 1.62  post-norm (原文)
-我的优化想法是理论上来说，残差连接是为了让反向传播更好的跨越到输入层，所以我认为要避免 norm 对于输入的干扰，但实际上理解错误了
-残差连接是为了让反向传播更好的跨越到输入层，那么更应该同时让 x 这部分也被 norm。当残差确实发挥作用的时候，那么意味着这一层网络是失败的权重极小需要绕过，那么如果 x 没有被 norm，那么架构就发生了改变了。并且，一起norm并不影响残差连接是为了让反向传播更好的跨越到输入层这一本质，因为 norm 可以看作是下一层的输入，这既是 pre-norm
+
+我的优化想法是理论上来说，残差连接是为了让反向传播更好的跨越到输入层，所以我认为要避免 norm 对于输入的干扰，但实际上理解错误了。
+残差连接是为了让反向传播更好的跨越到输入层，那么更应该同时让 x 这部分也被 norm。当残差确实发挥作用的时候，那么意味着这一层网络是失败的权重极小需要绕过，那么如果 x 没有被 norm，那么架构就发生了改变了。并且，一起norm并不影响残差连接是为了让反向传播更好的跨越到输入层这一本质，因为 norm 可以看作是下一层的输入，这既是 pre-norm。
 pre-norm 和 post-norm 的性能差异巨大。pre-norm 和 post-norm 如果在多层网络架构中看其中一部分，那么他们会是完全一样的。唯一的区别只在 pre-norm 在最开头的时候先 norm 了 input，而 post-norm 没有，让 input 直接进来；而 pre-norm 直接输出残差连接给 generator，而 post-norm 经过 norm 后再输出给 generator。即使存在性能差距也并没有可解释性。
-欢迎各位大佬告诉我这里面的深层原因
+欢迎各位大佬告诉我这里面的深层原因。
 
 ## utils
 
