@@ -113,7 +113,9 @@ tips：
 相同参数，训练 10 epoch ： 
 
 x = x + self.norm(self.dropout(sublayer(x))) BLEU 6.13  我
+
 x = x + self.dropout(sublayer(self.norm(x))) BLEU 25.34 pre-norm
+
 x = self.norm(x + self.dropout(sublayer(x))) BLEU 1.62  post-norm (原文)
 
 我的优化想法是理论上来说，残差连接是为了让反向传播更好的跨越到输入层，所以我认为要避免 norm 对于输入的干扰，但实际上理解错误了。
